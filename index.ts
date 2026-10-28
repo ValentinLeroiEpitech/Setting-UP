@@ -44,18 +44,19 @@ function DessinerTableau(tblxprincip: string[][]){
     }
 }
 
-function VerifCarreAllPLaces(tblx: string[][], taillesquare: number, ligne: number, colonne: number){
+function VerifCarreAllPLaces(tblx: string[][], taillesquare: number, ligne: number, colonne: number): boolean {
     let bool = false;
-    for (let i = 0; i < taillesquare; i++){
-        for (let j = 0; j < taillesquare; j++){
-            console.log(tblx[i][j])
-            if (ligne + i >= tblx.length || j + colonne >= tblx[i + ligne].length){
-                bool = false 
+
+    for (let i = 0; i < taillesquare; i++) {
+        for (let j = 0; j < taillesquare; j++) {
+
+            if (ligne + i >= tblx.length || colonne + j >= tblx[ligne + i].length) {
+                bool = false;
                 return bool;
             }
 
-            if (tblx[ligne + i][colonne + j] === "o"){
-                bool = false
+            if (tblx[ligne + i][colonne + j] === "o") {
+                bool = false;
                 return bool;
             }
         }
@@ -65,10 +66,20 @@ function VerifCarreAllPLaces(tblx: string[][], taillesquare: number, ligne: numb
     return bool;
 }
 
-// faire en sorte que quand sa finis de compter la taille du carré sa dois decaler i + 1; jusqu'a qu'on atteigne le lenght de i et ensuite on redescend (j+1 et i = 0)
+function VerifFinal(tablx: string[][]): number {
+    let test = true;
+    let h: number = 1;
 
-console.log(DessinerTableau(tableauprincipale));
-console.log(VerifCarreAllPLaces(CreationTableau(ReadFile("src/file.txt"), 5), 2, 0, 0))
+    for (; test === true; h++) {
+        test = VerifCarreAllPLaces(tablx, h, 1, 0);
+    }
+
+    return h - 2;
+}
+
+tableaulisto = CreationTableau(ReadFile("src/file.txt"), 5);
+DessinerTableau(tableaulisto);
+console.log(VerifFinal(tableaulisto));
 
 // quand sa a trouvé le carré le plus grand du coté gauche en haut qui est le plus grand.
 // je dois deplacer directement mon carré dans toute la zone jusqu'a trouvé un endroit
