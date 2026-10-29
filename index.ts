@@ -97,12 +97,11 @@ function VerifFinal(tablx: string[][]): number {
             }
         }
     }
-    console.log(Dessinfinal(sauvegarde, ligne, colonne, tableauprincipale));
+    console.log(DessinerTableau(Dessinfinal(sauvegarde, ligne, colonne, tableauprincipale)));
     return sauvegarde;
 }
 
-tableaulisto = CreationTableau(ReadFile("src/file.txt"), 5);
-DessinerTableau(tableaulisto);
+tableaulisto = CreationTableau(ReadFile("src/file2.txt"), 50);
 console.log(VerifFinal(tableaulisto));
 
 // quand sa a trouvé le carré le plus grand du coté gauche en haut qui est le plus grand.
