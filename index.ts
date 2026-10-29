@@ -66,15 +66,39 @@ function VerifCarreAllPLaces(tblx: string[][], taillesquare: number, ligne: numb
     return bool;
 }
 
+function Dessinfinal(taille: number, ligne: number, colonne: number, tblxfinal: string[][]) {
+    for (let g = 0; g < taille; g++) {
+        for (let n = 0; n < taille; n++) {
+            tblxfinal[ligne + g][colonne + n] = "x";
+        }
+    }
+    return tblxfinal;
+}
+
 function VerifFinal(tablx: string[][]): number {
     let test = true;
     let h: number = 1;
+    let sauvegarde = 0;
+    let ligne = 0;
+    let colonne = 0;
+    for (let y = 0; y < tablx.length; y++) {
+        for (let g = 0; g < tablx[y].length; g++) {
+            h = 1;
+            test = true;
 
-    for (; test === true; h++) {
-        test = VerifCarreAllPLaces(tablx, h, 1, 0);
+            while (test === true) {
+                test = VerifCarreAllPLaces(tablx, h, y, g);
+                if (test === true && h > sauvegarde) {
+                    sauvegarde = h;
+                    ligne = y;
+                    colonne = g;
+                }
+                h++;
+            }
+        }
     }
-
-    return h - 2;
+    console.log(Dessinfinal(sauvegarde, ligne, colonne, tableauprincipale));
+    return sauvegarde;
 }
 
 tableaulisto = CreationTableau(ReadFile("src/file.txt"), 5);
