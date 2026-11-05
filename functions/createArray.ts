@@ -2,7 +2,7 @@ let tableauprincipale: string[][] = [];
 let j = 0;
 tableauprincipale[0] = [];
 
-function createArray(S: string | undefined, N: number) {
+export function createArray(S: string | undefined, N: number) {
     if (S === undefined || N === 0){
         return [];
     }
