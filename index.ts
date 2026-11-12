@@ -9,19 +9,44 @@ const filesname = process.argv[2];
 tableauprincipale[0] = [];
 
 function ReadFile(filename: string) {
-    if (filename === undefined){
-        process.exit(84);
+    if (filename === undefined || filename === ""){
+        throw new Error("Fichier manquant");
     }
     const datafile = fs.readFileSync(filename, "utf8");
     if (datafile === ""){
-        return "Error";
+        throw new Error("Fichier vide");
     }
     return datafile;
 }
 
-tableaulisto = createArray(ReadFile(filesname), 50);
-console.log(finalVerify(tableaulisto));
+try {
+    if (process.argv.length !== 3) {
+        throw new Error("Nombre d'arguments incorrect");
+    }
 
-// quand sa a trouvé le carré le plus grand du coté gauche en haut qui est le plus grand.
-// je dois deplacer directement mon carré dans toute la zone jusqu'a trouvé un endroit
-// sans obstacle et a ce moment la, on repart dans la boucle pour agrandir le carré directement
+    const contenu = ReadFile(filesname);
+    const lignes = contenu.split(/\r?\n/);
+    const nombreLignes = Number(lignes[0]);
+    const largeur = lignes[1]?.length ?? 0;
+
+    if (!contenu.endsWith("\n") ||
+        !/^[0-9]+$/.test(lignes[0]) ||
+        !Number.isSafeInteger(nombreLignes) ||
+        nombreLignes <= 0 ||
+        nombreLignes !== lignes.length - 2 ||
+        largeur === 0) {
+        throw new Error("Fichier invalide");
+    }
+
+    for (let i = 1; i < lignes.length - 1; i++) {
+        if (lignes[i].length !== largeur || !/^[.o]+$/.test(lignes[i])) {
+            throw new Error("Fichier invalide");
+        }
+    }
+
+    tableaulisto = createArray(contenu, largeur);
+    finalVerify(tableaulisto);
+} catch (erreur) {
+    console.error("Error");
+    process.exitCode = 84;
+}
