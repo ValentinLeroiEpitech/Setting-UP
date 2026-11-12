@@ -14,11 +14,13 @@ export function finalVerify(tablx: string[][]): number {
     let colonne = 0;
     for (let y = 0; y < tablx.length; y++) {
         for (let g = 0; g < tablx[y].length; g++) {
-            h = 1;
+            h = sauvegarde + 1;
             test = true;
+            let precedentValide = false;
 
             while (test === true) {
-                test = verifySquare(tablx, h, y, g);
+                test = verifySquare(tablx, h, y, g, precedentValide);
+                precedentValide = test;
                 if (test === true && h > sauvegarde) {
                     sauvegarde = h;
                     ligne = y;
@@ -28,6 +30,6 @@ export function finalVerify(tablx: string[][]): number {
             }
         }
     }
-    console.log(drawArray(finalDraw(sauvegarde, ligne, colonne, tableauprincipale)));
+    drawArray(finalDraw(sauvegarde, ligne, colonne, tablx));
     return sauvegarde;
 }
